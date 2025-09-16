@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>موقع المحاضرات</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome للايقونات -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        .main-content {
+            flex: 1;
+        }
+        .folder-card {
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
+        }
+        .folder-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        .folder-icon {
+            font-size: 3rem;
+            color: #4e54c8;
+            margin-bottom: 15px;
+        }
+        .file-list {
+            list-style-type: none;
+            padding: 0;
+        }
+        .file-item {
+            padding: 12px 15px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s;
+        }
+        .file-item:hover {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+        }
+        .file-item:last-child {
+            border-bottom: none;
+        }
+        .download-btn {
+            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            border: none;
+            padding: 6px 15px;
+            border-radius: 20px;
+            color: white;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+        }
+        .download-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 8px rgba(78, 84, 200, 0.3);
+            color: white;
+        }
+        .file-icon {
+            color: #4e54c8;
+            margin-left: 10px;
+        }
+        .breadcrumb {
+            background-color: transparent;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+        .section-title {
+            position: relative;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+        .section-title:after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            border-radius: 3px;
+        }
+        /* تخصيصات للهدر والفوتر */
+        .header {
+            background: linear-gradient(135deg, #1a2a6c 0%, #2b5876 100%);
+            color: white;
+            padding: 0;
+        }
+        .footer {
+            background: linear-gradient(135deg, #1a2a6c 0%, #2b5876 100%);
+            color: white;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 1.8rem;
+        }
+        .nav-link {
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+        .nav-link:hover {
+            color: #8f94fb !important;
+        }
+    </style>
+</head>
+<body>
+
+<!-- الهدر من الموقع المطلوب -->
+<header class="header">
+    <nav class="navbar navbar-expand-lg navbar-dark">
+        <div class="container">
+            <a class="navbar-brand" href="#">
+                <i class="fas fa-graduation-cap me-2"></i>موقع المحاضرات
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item">
+                        <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> الرئيسية</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-book me-1"></i> المحاضرات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-download me-1"></i> التحميلات</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#"><i class="fas fa-envelope me-1"></i> التواصل</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+</header>
+
+<div class="main-content">
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+                <h2 class="section-title">المحاضرات المتاحة</h2>
+                
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">المحاضرات</li>
+                    </ol>
+                </nav>
+
+                <div class="row">
+                    <?php
+                    // المسار إلى مجلد الملفات
+                    $base_dir = "files/";
+                    
+                    // التحقق من وجود المجلد الأساسي
+                    if (is_dir($base_dir)) {
+                        // قراءة المجلدات المرقمة
+                        $folders = array_filter(glob($base_dir . '*'), 'is_dir');
+                        
+                        // فرز المجلدات numerically
+                        natsort($folders);
+                        
+                        // عرض كل مجلد
+                        foreach ($folders as $folder) {
+                            $folder_name = basename($folder);
+                            $files = scandir($folder);
+                            $file_count = count(array_filter($files, function($file) {
+                                return $file != '.' && $file != '..';
+                            }));
+                            
+                            echo '
+                            <div class="col-md-6 col-lg-4 mb-4">
+                                <div class="card folder-card h-100">
+                                    <div class="card-body text-center">
+                                        <div class="folder-icon">
+                                            <i class="fas fa-folder"></i>
+                                        </div>
+                                        <h5 class="card-title">المجلد ' . $folder_name . '</h5>
+                                        <p class="card-text">يحتوي على ' . $file_count . ' ملفات</p>
+                                        <button class="btn btn-primary view-files" data-folder="' . $folder_name . '">
+                                            عرض الملفات
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>';
+                        }
+                    } else {
+                        echo '<div class="col-12"><div class="alert alert-warning text-center">لم يتم العثور على مجلد المحاضرات</div></div>';
+                    }
+                    ?>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- الفوتر من الموقع المطلوب -->
+<footer class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="mb-3">عن الموقع</h5>
+                <p>هذا موقع مخصص لمشاركة المحاضرات والمواد التعليمية المختلفة لمساعدة الطلاب على الوصول إلى المحتوى العلمي بسهولة.</p>
+            </div>
+            <div class="col-md-4 mb-4 mb-md-0">
+                <h5 class="mb-3">روابط سريعة</h5>
+                <ul class="list-unstyled">
+                    <li><a href="#" class="text-white text-decoration-none">الرئيسية</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">المحاضرات</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">المواد الدراسية</a></li>
+                    <li><a href="#" class="text-white text-decoration-none">اتصل بنا</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <h5 class="mb-3">التواصل الاجتماعي</h5>
+                <div class="d-flex">
+                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-instagram"></i></a>
+                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+        </div>
+        <hr class="my-4 bg-light">
+        <div class="text-center">
+            <p class="mb-0">جميع الحقوق محفوظة &copy; 2023 موقع المحاضرات</p>
+        </div>
+    </div>
+</footer>
+
+<!-- نموذج عرض الملفات -->
+<div class="modal fade" id="filesModal" tabindex="-1" aria-labelledby="filesModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="filesModalLabel">ملفات المجلد <span id="folderName"></span></h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <ul class="file-list" id="filesList">
+                    <!-- سيتم ملئ الملفات هنا عن طريق JavaScript -->
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">إغلاق</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap & jQuery JS -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+$(document).ready(function() {
+    // عند النقر على زر عرض الملفات
+    $('.view-files').click(function() {
+        var folderName = $(this).data('folder');
+        $('#folderName').text(folderName);
+        
+        // إرسال طلب Ajax للحصول على ملفات المجلد
+        $.ajax({
+            url: 'get_files.php',
+            type: 'POST',
+            data: { folder: folderName },
+            success: function(response) {
+                $('#filesList').html(response);
+                $('#filesModal').modal('show');
+            },
+            error: function() {
+                $('#filesList').html('<li class="text-center text-danger">حدث خطأ في تحميل الملفات</li>');
+                $('#filesModal').modal('show');
+            }
+        });
+    });
+});
+</script>
+</body>
+</html>
