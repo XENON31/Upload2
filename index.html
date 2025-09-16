@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>موقع المحاضرات</title>
+    <title>موقع محاضرات السمستر الخامس</title>
     <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome للايقونات -->
@@ -45,9 +45,9 @@
         .folder-card {
             transition: transform 0.3s, box-shadow 0.3s;
             border: none;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             margin-bottom: 20px;
             border-radius: 10px;
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
         }
 
         body.light-mode .folder-card {
@@ -57,11 +57,12 @@
         body.dark-mode .folder-card {
             background: linear-gradient(135deg, var(--dark-card) 0%, #1e2a47 100%);
             color: var(--dark-text);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
         }
 
         .folder-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
         }
 
         .folder-icon {
@@ -108,11 +109,12 @@
             color: white;
             font-size: 0.9rem;
             transition: all 0.3s;
+            box-shadow: 0 3px 8px rgba(78, 84, 200, 0.2);
         }
 
         .download-btn:hover {
             transform: scale(1.05);
-            box-shadow: 0 4px 8px rgba(78, 84, 200, 0.3);
+            box-shadow: 0 5px 15px rgba(78, 84, 200, 0.4);
             color: white;
         }
 
@@ -158,6 +160,7 @@
             background: linear-gradient(135deg, #1a2a6c 0%, #2b5876 100%);
             color: white;
             padding: 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .footer {
@@ -194,7 +197,7 @@
             color: var(--primary-color);
         }
 
-        /* زر الوضع الليلي */
+        /* زر الوضع الليلي - تصميم محسن */
         .theme-switch-wrapper {
             display: flex;
             align-items: center;
@@ -205,7 +208,7 @@
             display: inline-block;
             position: relative;
             width: 60px;
-            height: 34px;
+            height: 30px;
         }
 
         .theme-switch input {
@@ -229,8 +232,8 @@
         .slider:before {
             position: absolute;
             content: "";
-            height: 26px;
-            width: 26px;
+            height: 22px;
+            width: 22px;
             left: 4px;
             bottom: 4px;
             background-color: white;
@@ -243,14 +246,14 @@
         }
 
         input:checked + .slider:before {
-            transform: translateX(26px);
+            transform: translateX(30px);
         }
 
         .slider-icon {
             position: absolute;
             top: 50%;
             transform: translateY(-50%);
-            font-size: 16px;
+            font-size: 14px;
             color: white;
         }
 
@@ -266,6 +269,7 @@
         body.dark-mode .modal-content {
             background-color: var(--dark-card);
             color: var(--dark-text);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.4);
         }
 
         body.dark-mode .modal-header,
@@ -290,11 +294,11 @@
             color: #8f94fb;
         }
 
-        /* تأثيرات إضافية */
+        /* تأثيرات إضافية - زر العودة إلى الأعلى */
         .back-to-top {
             position: fixed;
-            bottom: 20px;
-            left: 20px;
+            bottom: 25px;
+            left: 25px;
             width: 50px;
             height: 50px;
             border-radius: 50%;
@@ -304,11 +308,12 @@
             align-items: center;
             justify-content: center;
             font-size: 20px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 12px rgba(78, 84, 200, 0.3);
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s;
+            transition: all 0.4s;
             z-index: 1000;
+            text-decoration: none;
         }
 
         .back-to-top.show {
@@ -317,8 +322,24 @@
         }
 
         .back-to-top:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            transform: translateY(-5px);
+            box-shadow: 0 6px 18px rgba(78, 84, 200, 0.5);
+            color: white;
+        }
+
+        /* تحسينات للبطاقات في الوضع الليلي */
+        body.dark-mode .card {
+            border: none;
+        }
+
+        /* تحسينات التنسيق العام */
+        .container {
+            transition: all 0.3s ease;
+        }
+
+        /* تحسينات للشريط العلوي في الوضع الليلي */
+        body.dark-mode .header {
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -329,7 +350,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark">
         <div class="container">
             <a class="navbar-brand" href="#">
-                <i class="fas fa-graduation-cap me-2"></i>موقع المحاضرات
+                <i class="fas fa-graduation-cap me-2"></i>محاضرات سمستر 5
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -348,7 +369,8 @@
                     <li class="nav-item">
                         <a class="nav-link" href="#contact"><i class="fas fa-envelope me-1"></i> التواصل</a>
                     </li>
-                    <li class="theme-switch-wrapper">
+                    <li class="nav-item theme-switch-wrapper">
+                        <span class="nav-link-text me-2">الوضع الليلي</span>
                         <label class="theme-switch" for="checkbox">
                             <input type="checkbox" id="checkbox" />
                             <div class="slider">
@@ -409,7 +431,7 @@
             <div class="col-md-4">
                 <h5 class="mb-3">معلومات التواصل</h5>
                 <p><i class="fas fa-phone me-2"></i>+249908193849</p>
-                <p><i class="fas fa-envelope me-2"></i> example@example.com</p>
+                <p><i class="fas fa-envelope me-2"></i> rdoan2684@example.com</p>
             </div>
         </div>
         <hr class="my-4 bg-light">
@@ -575,11 +597,23 @@ $(document).ready(function() {
     
     // إضافة تأثير التمرير السلس للروابط
     $('a[href^="#"]').on('click', function(e) {
+        // منع السلوك الافتراضي
         e.preventDefault();
-        const target = $($(this).attr('href'));
-        if (target.length) {
+        
+        // الحصول على الهدف من الرابط
+        const target = $(this).attr('href');
+        
+        // التحقق إذا كان الرابط هو زر العودة للأعلى
+        if (target === '#') {
+            $('html, body').animate({ scrollTop: 0 }, 800);
+            return;
+        }
+        
+        // التمرير إلى القسم المطلوب
+        const targetElement = $(target);
+        if (targetElement.length) {
             $('html, body').animate({
-                scrollTop: target.offset().top
+                scrollTop: targetElement.offset().top
             }, 800);
         }
     });
@@ -592,6 +626,9 @@ $(document).ready(function() {
             $('.back-to-top').removeClass('show');
         }
     });
+    
+    // تهيئة عناصر واجهة المستخدم
+    initUI();
 });
 
 // تهيئة وضع العرض
@@ -606,6 +643,19 @@ function initTheme() {
         $('body').removeClass('dark-mode').addClass('light-mode');
         $('#checkbox').prop('checked', false);
     }
+}
+
+// تهيئة واجهة المستخدم
+function initUI() {
+    // إضافة تأثيرات للبطاقات
+    $('.folder-card').hover(
+        function() {
+            $(this).css('transform', 'translateY(-5px)');
+        },
+        function() {
+            $(this).css('transform', 'translateY(0)');
+        }
+    );
 }
 
 // دالة لعرض المجلدات
