@@ -9,37 +9,79 @@
     <!-- Font Awesome للايقونات -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #4e54c8;
+            --secondary-color: #8f94fb;
+            --dark-bg: #1a1a2e;
+            --dark-card: #16213e;
+            --dark-text: #f0f0f0;
+            --light-bg: #f8f9fa;
+            --light-card: #ffffff;
+            --light-text: #212529;
+        }
+
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(to bottom, #f8f9fa, #e9ecef);
             min-height: 100vh;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
         }
+
+        body.light-mode {
+            background: linear-gradient(to bottom, var(--light-bg), #e9ecef);
+            color: var(--light-text);
+        }
+
+        body.dark-mode {
+            background: linear-gradient(to bottom, #0f0c29, #302b63, #24243e);
+            color: var(--dark-text);
+        }
+
         .main-content {
             flex: 1;
         }
+
         .folder-card {
             transition: transform 0.3s, box-shadow 0.3s;
             border: none;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
             margin-bottom: 20px;
             border-radius: 10px;
-            background: linear-gradient(135deg, #ffffff 0%, #f5f7fa 100%);
         }
+
+        body.light-mode .folder-card {
+            background: linear-gradient(135deg, var(--light-card) 0%, #f5f7fa 100%);
+        }
+
+        body.dark-mode .folder-card {
+            background: linear-gradient(135deg, var(--dark-card) 0%, #1e2a47 100%);
+            color: var(--dark-text);
+        }
+
         .folder-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 12px 20px rgba(0,0,0,0.15);
         }
+
         .folder-icon {
             font-size: 3rem;
-            color: #4e54c8;
             margin-bottom: 15px;
         }
+
+        body.light-mode .folder-icon {
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .folder-icon {
+            color: var(--secondary-color);
+        }
+
         .file-list {
             list-style-type: none;
             padding: 0;
         }
+
         .file-item {
             padding: 12px 15px;
             border-bottom: 1px solid #eee;
@@ -48,15 +90,18 @@
             align-items: center;
             transition: background-color 0.2s;
         }
+
         .file-item:hover {
-            background-color: #f8f9fa;
+            background-color: rgba(0,0,0,0.05);
             border-radius: 5px;
         }
+
         .file-item:last-child {
             border-bottom: none;
         }
+
         .download-btn {
-            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             border: none;
             padding: 6px 15px;
             border-radius: 20px;
@@ -64,26 +109,38 @@
             font-size: 0.9rem;
             transition: all 0.3s;
         }
+
         .download-btn:hover {
             transform: scale(1.05);
             box-shadow: 0 4px 8px rgba(78, 84, 200, 0.3);
             color: white;
         }
+
         .file-icon {
-            color: #4e54c8;
             margin-left: 10px;
         }
+
+        body.light-mode .file-icon {
+            color: var(--primary-color);
+        }
+
+        body.dark-mode .file-icon {
+            color: var(--secondary-color);
+        }
+
         .breadcrumb {
             background-color: transparent;
             padding: 0;
             margin-bottom: 20px;
         }
+
         .section-title {
             position: relative;
             padding-bottom: 15px;
             margin-bottom: 30px;
             text-align: center;
         }
+
         .section-title:after {
             content: '';
             position: absolute;
@@ -92,46 +149,180 @@
             transform: translateX(-50%);
             width: 80px;
             height: 3px;
-            background: linear-gradient(135deg, #4e54c8 0%, #8f94fb 100%);
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
             border-radius: 3px;
         }
+
         /* تخصيصات للهدر والفوتر */
         .header {
             background: linear-gradient(135deg, #1a2a6c 0%, #2b5876 100%);
             color: white;
             padding: 0;
         }
+
         .footer {
             background: linear-gradient(135deg, #1a2a6c 0%, #2b5876 100%);
             color: white;
             padding: 30px 0;
             margin-top: 50px;
         }
+
         .navbar-brand {
             font-weight: 700;
             font-size: 1.8rem;
         }
+
         .nav-link {
             font-weight: 500;
             transition: color 0.3s;
         }
+
         .nav-link:hover {
             color: #8f94fb !important;
         }
+
         .loading {
             display: flex;
             justify-content: center;
             align-items: center;
             height: 200px;
         }
+
         .spinner-border {
             width: 3rem;
             height: 3rem;
-            color: #4e54c8;
+            color: var(--primary-color);
+        }
+
+        /* زر الوضع الليلي */
+        .theme-switch-wrapper {
+            display: flex;
+            align-items: center;
+            margin-left: 15px;
+        }
+
+        .theme-switch {
+            display: inline-block;
+            position: relative;
+            width: 60px;
+            height: 34px;
+        }
+
+        .theme-switch input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #ccc;
+            transition: .4s;
+            border-radius: 34px;
+        }
+
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 26px;
+            width: 26px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: .4s;
+            border-radius: 50%;
+        }
+
+        input:checked + .slider {
+            background-color: var(--primary-color);
+        }
+
+        input:checked + .slider:before {
+            transform: translateX(26px);
+        }
+
+        .slider-icon {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 16px;
+            color: white;
+        }
+
+        .sun-icon {
+            left: 8px;
+        }
+
+        .moon-icon {
+            right: 8px;
+        }
+
+        /* تحسينات للوضع الليلي */
+        body.dark-mode .modal-content {
+            background-color: var(--dark-card);
+            color: var(--dark-text);
+        }
+
+        body.dark-mode .modal-header,
+        body.dark-mode .modal-footer {
+            border-color: #2a2a4a;
+        }
+
+        body.dark-mode .btn-close {
+            filter: invert(1);
+        }
+
+        body.dark-mode .breadcrumb-item.active {
+            color: #e6e6e6;
+        }
+
+        /* تحسينات للشريط العلوي */
+        .navbar-dark .navbar-nav .nav-link {
+            color: rgba(255, 255, 255, 0.85);
+        }
+
+        .navbar-dark .navbar-nav .nav-link:hover {
+            color: #8f94fb;
+        }
+
+        /* تأثيرات إضافية */
+        .back-to-top {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s;
+            z-index: 1000;
+        }
+
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .back-to-top:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
-<body>
+<body class="light-mode">
 
 <!-- الهدر من الموقع المطلوب -->
 <header class="header">
@@ -149,13 +340,22 @@
                         <a class="nav-link active" href="#"><i class="fas fa-home me-1"></i> الرئيسية</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-book me-1"></i> المحاضرات</a>
+                        <a class="nav-link" href="#lectures"><i class="fas fa-book me-1"></i> المحاضرات</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-download me-1"></i> التحميلات</a>
+                        <a class="nav-link" href="#downloads"><i class="fas fa-download me-1"></i> التحميلات</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#"><i class="fas fa-envelope me-1"></i> التواصل</a>
+                        <a class="nav-link" href="#contact"><i class="fas fa-envelope me-1"></i> التواصل</a>
+                    </li>
+                    <li class="theme-switch-wrapper">
+                        <label class="theme-switch" for="checkbox">
+                            <input type="checkbox" id="checkbox" />
+                            <div class="slider">
+                                <i class="fas fa-sun sun-icon"></i>
+                                <i class="fas fa-moon moon-icon"></i>
+                            </div>
+                        </label>
                     </li>
                 </ul>
             </div>
@@ -167,12 +367,11 @@
     <div class="container py-5">
         <div class="row justify-content-center">
             <div class="col-lg-10">
-                <h2 class="section-title">المحاضرات المتاحة</h2>
+                <h2 class="section-title" id="lectures">المحاضرات المتاحة</h2>
                 
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb-item"><a href="#">الرئيسية</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">المحاضرات</li>
+                        <li class="breadcrumb-item active" aria-current="page">المحاضرات/</li>
                     </ol>
                 </nav>
 
@@ -191,35 +390,32 @@
 </div>
 
 <!-- الفوتر من الموقع المطلوب -->
-<footer class="footer">
+<footer class="footer" id="contact">
     <div class="container">
         <div class="row">
             <div class="col-md-4 mb-4 mb-md-0">
                 <h5 class="mb-3">عن الموقع</h5>
                 <p>هذا موقع مخصص لمشاركة المحاضرات والمواد التعليمية المختلفة لمساعدة الطلاب على الوصول إلى المحتوى العلمي بسهولة.</p>
             </div>
+            
             <div class="col-md-4 mb-4 mb-md-0">
-                <h5 class="mb-3">روابط سريعة</h5>
-                <ul class="list-unstyled">
-                    <li><a href="#" class="text-white text-decoration-none">الرئيسية</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">المحاضرات</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">المواد الدراسية</a></li>
-                    <li><a href="#" class="text-white text-decoration-none">اتصل بنا</a></li>
-                </ul>
-            </div>
-            <div class="col-md-4">
                 <h5 class="mb-3">التواصل الاجتماعي</h5>
                 <div class="d-flex">
-                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-twitter"></i></a>
-                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-facebook"></i></a>
-                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-instagram"></i></a>
-                    <a href="#" class="text-white me-3 fs-5"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=61562260692432" target="_blank" class="text-white me-3 fs-5"><i class="fab fa-facebook"></i></a>
+                    <a href="https://wa.me/249908193849" target="_blank" class="text-white me-3 fs-5"><i class="fab fa-whatsapp"></i></a>               
                 </div>
+            </div>
+            
+            <div class="col-md-4">
+                <h5 class="mb-3">معلومات التواصل</h5>
+                <p><i class="fas fa-phone me-2"></i>+249908193849</p>
+                <p><i class="fas fa-envelope me-2"></i> example@example.com</p>
             </div>
         </div>
         <hr class="my-4 bg-light">
         <div class="text-center">
-            <p class="mb-0">جميع الحقوق محفوظة &copy; 2023 موقع المحاضرات</p>
+            <p class="mb-0">تم إنشاء هذا الموقع بواسطة عبدالعزيز رضوان</p>
+            <p class="mb-0">جميع الحقوق محفوظة &copy; 2025 موقع المحاضرات</p>
         </div>
     </div>
 </footer>
@@ -249,12 +445,17 @@
     </div>
 </div>
 
+<!-- زر العودة إلى الأعلى -->
+<a href="#" class="back-to-top">
+    <i class="fas fa-arrow-up"></i>
+</a>
+
 <!-- Bootstrap & jQuery JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-// بيانات المجلدات والملفات (يجب تحديثها يدويًا عند إضافة مجلدات جديدة)
+// بيانات المجلدات والملفات
 const foldersData = {
     "folders": [
         {
@@ -270,8 +471,7 @@ const foldersData = {
                 {"name": "مواضيع في تقنية المعلومات 7.pptx", "path": "files/1/مواضيع في تقنية المعلومات 7.pptx"},
                 {"name": "مواضيع في تقنية المعلومات 8.pptx", "path": "files/1/مواضيع في تقنية المعلومات 8.pptx"},
                 {"name": "مواضيع في تقنية المعلومات 9.pptx", "path": "files/1/مواضيع في تقنية المعلومات 9.pptx"},
-                
-                            ]
+            ]
         },
         {
             "id": 2,
@@ -283,8 +483,7 @@ const foldersData = {
                 {"name": "برمجه بلغة التجميع 5.pdf", "path": "files/2/برمجه بلغة التجميع 5.pdf"},
                 {"name": "برمجه بلغة التجميع 6.pdf", "path": "files/2/برمجه بلغة التجميع 6.pdf"},
                 {"name": "برمجه بلغة التجميع 7و8و9و10.pdf", "path": "files/2/برمجه بلغة التجميع 7و8و9و10.pdf"}
-                
-                      ]
+            ]
         },
         {
             "id": 3,
@@ -300,11 +499,9 @@ const foldersData = {
                 {"name": "تحليل نظم 8.ppt", "path": "files/3/تحليل نظم 8.ppt"},
                 {"name": "تحليل نظم 9.ppt", "path": "files/3/تحليل نظم 9.ppt"},
                 {"name": "تحليل نظم 10.ppt", "path": "files/3/تحليل نظم 10.ppt"},
-                
-            
-                        ]
+            ]
         },
-    {
+        {
             "id": 4,
             "name": "تنظيم الملفات",
             "files": [
@@ -316,9 +513,7 @@ const foldersData = {
                 {"name": "تنظيم الملفات 6.pptx", "path": "files/4/تنظيم الملفات 6.pptx"},
                 {"name": "تنظيم الملفات 7.pptx", "path": "files/4/تنظيم الملفات 7.pptx"},
                 {"name": "تنظيم الملفات 8.pdf", "path": "files/4/تنظيم الملفات 8.pdf"}
-                
-            
-                        ]
+            ]
         },
         {
             "id": 5,
@@ -330,8 +525,7 @@ const foldersData = {
                 {"name": "معمارية الحاسوب 4.pdf", "path": "files/5/معمارية الحاسوب 4.pdf"},
                 {"name": "معمارية الحاسوب 5-6.pdf", "path": "files/5/معمارية الحاسوب 5-6.pdf"},
                 {"name": "معمارية الحاسوب 7.pdf", "path": "files/5/معمارية الحاسوب 7.pdf"}        
-            
-                        ]
+            ]
         },
         {
             "id": 6,
@@ -350,15 +544,15 @@ const foldersData = {
                 {"name": "قواعد بيانات-معمل  3.pdf", "path": "files/6/قواعد بيانات-معمل  3.pdf"},
                 {"name": "قواعد بيانات-معمل  4.pdf", "path": "files/6/قواعد بيانات-معمل  4.pdf"},
                 {"name": "قواعد بيانات-معمل  5.docx", "path": "files/6/قواعد بيانات-معمل  5.docx"}
-                
-            
-                        ]
+            ]
         }
-        
     ]
 };
 
 $(document).ready(function() {
+    // تهيئة وضع العرض بناءً على تفضيلات المستخدم
+    initTheme();
+    
     // عرض المجلدات
     displayFolders();
     
@@ -367,7 +561,52 @@ $(document).ready(function() {
         const folderId = $(this).data('folder');
         showFiles(folderId);
     });
+    
+    // تبديل الوضع الليلي
+    $('#checkbox').on('change', function() {
+        if ($(this).is(':checked')) {
+            $('body').removeClass('light-mode').addClass('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            $('body').removeClass('dark-mode').addClass('light-mode');
+            localStorage.setItem('theme', 'light');
+        }
+    });
+    
+    // إضافة تأثير التمرير السلس للروابط
+    $('a[href^="#"]').on('click', function(e) {
+        e.preventDefault();
+        const target = $($(this).attr('href'));
+        if (target.length) {
+            $('html, body').animate({
+                scrollTop: target.offset().top
+            }, 800);
+        }
+    });
+    
+    // إظهار/إخفاء زر العودة للأعلى
+    $(window).scroll(function() {
+        if ($(this).scrollTop() > 200) {
+            $('.back-to-top').addClass('show');
+        } else {
+            $('.back-to-top').removeClass('show');
+        }
+    });
 });
+
+// تهيئة وضع العرض
+function initTheme() {
+    const savedTheme = localStorage.getItem('theme');
+    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+    
+    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+        $('body').removeClass('light-mode').addClass('dark-mode');
+        $('#checkbox').prop('checked', true);
+    } else {
+        $('body').removeClass('dark-mode').addClass('light-mode');
+        $('#checkbox').prop('checked', false);
+    }
+}
 
 // دالة لعرض المجلدات
 function displayFolders() {
